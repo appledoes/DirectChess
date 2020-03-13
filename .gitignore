@@ -1,0 +1,12 @@
+# Directories #
+###############
+Debug/
+Release/
+x64/
+
+# Dumb Stuff from Windows #
+###########################
+*.aps
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
