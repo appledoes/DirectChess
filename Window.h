@@ -3,6 +3,7 @@
 #include "ExceptionHandler.h"
 #include "Keyboard.h"
 #include "Mouse.h"
+#include "Graphics.h"
 #include <optional>
 
 class Window
@@ -50,6 +51,7 @@ private:
 public:
 	Keyboard kbd;
 	Mouse mouse;
+	Graphics* graphics;
 private:
 	int width  = 0;
 	int height = 0;
