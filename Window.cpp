@@ -250,6 +250,15 @@ LRESULT Window::HandleMsg(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 		//*** END MOUSE MESSAGES ***//
+
+		//*** PAINT MESSAGES ***//
+	case WM_PAINT:
+		graphics->BeginDraw();
+
+		graphics->ClearScreen(0.0f, 0.0f, 0.5f);
+		graphics->DrawCircle(100, 100, 50, 1.0f, 0, 0, 1.0);
+
+		graphics->EndDraw();
 	}
 
 	return DefWindowProc(hwnd, msg, wParam, lParam);

@@ -47,3 +47,18 @@ void Graphics::EndDraw()
 {
 	RenderTarget->EndDraw();
 }
+
+void Graphics::ClearScreen(float r, float g, float b)
+{
+	RenderTarget->Clear(D2D1::ColorF(r, g, b));
+}
+
+void Graphics::DrawCircle(float x, float y, float radius, float r, float g, float b, float a)
+{
+	ID2D1SolidColorBrush* brush;
+	RenderTarget->CreateSolidColorBrush(D2D1::ColorF(r, g, b, a), &brush);
+
+	RenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), brush, 3.0f);
+
+	brush->Release();
+}
