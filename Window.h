@@ -3,7 +3,7 @@
 #include "ExceptionHandler.h"
 #include "Keyboard.h"
 #include "Mouse.h"
-#include "Graphics.h"
+#include "Draw.h"
 #include <optional>
 
 class Window
@@ -43,7 +43,6 @@ public:
 	Window(const Window&) = delete;
 	Window& operator = (const Window&) = delete;
 	void SetTitle(const std::string& title);
-	static std::optional<int> ProcessMessages();
 private:
 	static LRESULT CALLBACK HandleMsgSetup(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 	static LRESULT CALLBACK HandleMsgThunk(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
@@ -51,7 +50,7 @@ private:
 public:
 	Keyboard kbd;
 	Mouse mouse;
-	Graphics* graphics;
+	Draw* gfx;
 private:
 	int width  = 0;
 	int height = 0;

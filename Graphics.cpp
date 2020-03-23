@@ -38,12 +38,17 @@ bool Graphics::Init(HWND hwnd)
 	return true;
 }
 
-void Graphics::BeginDraw()
+ID2D1RenderTarget* Graphics::GetRenderTarget()
+{
+	return RenderTarget;
+}
+
+void Graphics::BeginDraw() noexcept
 {
 	RenderTarget->BeginDraw();
 }
 
-void Graphics::EndDraw()
+void Graphics::EndDraw() noexcept
 {
 	RenderTarget->EndDraw();
 }

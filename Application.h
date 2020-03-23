@@ -1,6 +1,5 @@
 #pragma once
 #include "Window.h"
-#include "Timer.h"
 
 class Application
 {
@@ -11,6 +10,5 @@ private:
 	void DoFrame();
 private:
 	Window wnd;
-	Timer timer;
 };
 

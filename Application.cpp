@@ -9,14 +9,21 @@ Application::Application()
 
 int Application::Run()
 {
-	while (true)
+	MSG msg;
+	BOOL bret;
+
+	while (bret = GetMessage(&msg, nullptr, 0, 0) > 0)
 	{
-		if (const auto ecode = Window::ProcessMessages())
-		{
-			return *ecode;
-		}
-		DoFrame();
+		TranslateMessage(&msg);
+		DispatchMessageW(&msg);
 	}
+
+	if (bret == -1)
+	{
+		throw EXCEPT_LAST_ERROR();
+	}
+
+	return msg.wParam;
 }
 
 void Application::DoFrame()

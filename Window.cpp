@@ -9,6 +9,7 @@ Window::WindowClass::WindowClass() noexcept
 	hInst(GetModuleHandle(nullptr))
 {
 	WNDCLASSEX wc = { 0 };
+	ZeroMemory(&wc, sizeof(WNDCLASSEX));
 	wc.cbSize = sizeof(wc);
 	wc.style = 0; /*CS_NOCLOSE*/
 	wc.lpfnWndProc = HandleMsgSetup;
@@ -73,11 +74,12 @@ Window::Window(int width, int height, const char* name)
 	{
 		throw EXCEPT_LAST_ERROR();
 	}
-
-	graphics = new Graphics();
-	if (!graphics->Init(hwnd))
+	gfx = new Draw();
+	// Initialize Graphics
+	if (!gfx->InitWnd(hwnd))
 	{
-		delete graphics;
+		delete gfx;
+		throw EXCEPT_LAST_ERROR();
 	}
 
 	// Show Window
@@ -86,6 +88,7 @@ Window::Window(int width, int height, const char* name)
 
 Window::~Window()
 {
+	delete gfx;
 	DestroyWindow(hwnd);
 }
 
@@ -95,24 +98,6 @@ void Window::SetTitle(const std::string& title)
 	{
 		throw EXCEPT_LAST_ERROR();
 	}
-}
-
-std::optional<int> Window::ProcessMessages()
-{
-	MSG msg;
-
-	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
-	{
-		if (msg.message == WM_QUIT)
-		{
-			return (int)msg.wParam;
-		}
-
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
-	}
-
-	return {};
 }
 
 /* 
@@ -253,12 +238,10 @@ LRESULT Window::HandleMsg(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		//*** PAINT MESSAGES ***//
 	case WM_PAINT:
-		graphics->BeginDraw();
-
-		graphics->ClearScreen(0.0f, 0.0f, 0.5f);
-		graphics->DrawCircle(100, 100, 50, 1.0f, 0, 0, 1.0);
-
-		graphics->EndDraw();
+	{
+		gfx->Paint();
+		break;
+	}
 	}
 
 	return DefWindowProc(hwnd, msg, wParam, lParam);
